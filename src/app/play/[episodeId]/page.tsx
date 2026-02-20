@@ -438,7 +438,7 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
 
               <motion.button
                 onClick={returnToBoard}
-                className="px-10 py-4 bg-white/10 border border-white/20 rounded-xl text-xl hover:bg-white/20 transition-colors mt-8"
+                className="px-10 py-4 bg-white/10 border border-white/20 rounded-xl text-xl hover:bg-white/20 transition-colors mt-8 relative z-10"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 2 }}

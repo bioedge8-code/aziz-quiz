@@ -18,7 +18,7 @@ export default function PrizeReveal({ name, value, imageUrl }: PrizeRevealProps)
     >
       {/* Spotlight ring */}
       <motion.div
-        className="absolute w-[500px] h-[500px] rounded-full"
+        className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
         style={{
           background: 'radial-gradient(circle, rgba(255,215,0,0.15) 0%, transparent 70%)',
         }}
