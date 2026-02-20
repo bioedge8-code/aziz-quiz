@@ -57,12 +57,11 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
     setTimeout(() => playSound('reveal'), 400)
   }, [episodeId])
 
-  // Select an answer
+  // Select an answer (can change before reveal)
   const selectAnswer = useCallback((answer: string) => {
-    if (gameState !== 'question' || selectedAnswer) return
+    if (gameState !== 'question') return
     setSelectedAnswer(answer)
-    setTimerRunning(false)
-  }, [gameState, selectedAnswer])
+  }, [gameState])
 
   // Reveal the answer (check if correct)
   const revealAnswer = useCallback(async () => {
@@ -280,15 +279,14 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
                     <motion.button
                       key={opt}
                       onClick={() => selectAnswer(opt)}
-                      disabled={!!selectedAnswer}
                       initial={{ x: idx % 2 === 0 ? -50 : 50, opacity: 0 }}
                       animate={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.4 + idx * 0.1 }}
                       className={cn(
-                        'glass rounded-xl p-6 text-right transition-all text-lg',
-                        !selectedAnswer && 'hover:bg-white/10 hover:scale-[1.02] cursor-pointer',
+                        'glass rounded-xl p-6 text-right transition-all text-lg cursor-pointer',
+                        'hover:bg-white/10 hover:scale-[1.02]',
                         isSelected && 'bg-gold/20 border-gold/50 scale-[1.02]',
-                        selectedAnswer && !isSelected && 'opacity-50',
+                        selectedAnswer && !isSelected && 'opacity-60',
                       )}
                     >
                       <span className={cn(
