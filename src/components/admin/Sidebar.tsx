@@ -29,7 +29,7 @@ export default function Sidebar() {
             className={cn(
               'flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm',
               pathname === item.href
-                ? 'bg-gold/20 text-gold border border-gold/30'
+                ? 'bg-accent/20 text-accent-light border border-accent/30'
                 : 'text-white/70 hover:bg-white/5 hover:text-white'
             )}
           >

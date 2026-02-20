@@ -74,7 +74,12 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ id: st
 
   const regenerate = async () => {
     if (!confirm('سيتم إعادة اختيار الأسئلة والجوائز. هل أنت متأكد؟')) return
-    await fetch(`/api/episodes/${id}/generate`, { method: 'POST' })
+    const res = await fetch(`/api/episodes/${id}/generate`, { method: 'POST' })
+    if (!res.ok) {
+      const data = await res.json()
+      alert(data.error || 'فشل في إعادة التوليد')
+      return
+    }
     loadEpisode()
   }
 

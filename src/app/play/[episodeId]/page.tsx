@@ -162,11 +162,12 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
   const answerLabels = { A: 'option_a', B: 'option_b', C: 'option_c', D: 'option_d' } as const
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-bg-dark via-[#0f0f2e] to-bg-mid relative overflow-hidden select-none">
-      {/* Background effects */}
+    <div className="min-h-screen bg-gradient-to-br from-bg-dark via-[#0D1B3E] to-bg-mid relative overflow-hidden select-none stars-bg ramadan-pattern">
+      {/* Ramadan background effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gold/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-ramadan-light/5 rounded-full blur-3xl" />
+        <div className="absolute top-10 left-1/2 -translate-x-1/2 text-6xl animate-crescent opacity-40 select-none">&#9790;</div>
       </div>
 
       <Confetti active={showConfetti} />

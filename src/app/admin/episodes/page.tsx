@@ -46,7 +46,11 @@ export default function EpisodesPage() {
     setShowForm(false)
 
     // Auto-generate questions
-    await fetch(`/api/episodes/${episode.id}/generate`, { method: 'POST' })
+    const genRes = await fetch(`/api/episodes/${episode.id}/generate`, { method: 'POST' })
+    if (!genRes.ok) {
+      const data = await genRes.json()
+      alert(data.error || 'تم إنشاء الحلقة لكن فشل التوليد التلقائي')
+    }
     loadEpisodes()
   }
 
