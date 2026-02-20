@@ -35,7 +35,7 @@ export default function PrizesPage() {
     await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...form, value: parseFloat(form.value) }),
+      body: JSON.stringify({ ...form, value: form.value ? parseFloat(form.value) : 0 }),
     })
 
     setForm({ name: '', image_url: '', value: '', is_available: true })
@@ -110,8 +110,7 @@ export default function PrizesPage() {
                 type="number"
                 value={form.value}
                 onChange={(e) => setForm({ ...form, value: e.target.value })}
-                placeholder="القيمة (ريال)"
-                required
+                placeholder="القيمة التقريبية بالريال (اختياري)"
                 min="0"
                 step="0.01"
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50"
@@ -140,7 +139,9 @@ export default function PrizesPage() {
                 </div>
               )}
               <h3 className="font-bold text-lg">{prize.name}</h3>
-              <p className="text-gold font-bold mt-1">{parseFloat(prize.value).toLocaleString('ar-SA')} ريال</p>
+              {parseFloat(prize.value) > 0 && (
+                <p className="text-gold font-bold mt-1">{parseFloat(prize.value).toLocaleString('ar-SA')} ريال</p>
+              )}
               <div className="flex items-center justify-between mt-3">
                 <button
                   onClick={() => toggleAvailability(prize)}

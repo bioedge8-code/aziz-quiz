@@ -140,7 +140,7 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ id: st
             <div className="text-xs text-white/40 space-y-1">
               <p>الإجابة: {eq.question.correct_answer}</p>
               <p className="text-gold">الجائزة: {eq.prize.name}</p>
-              <p>{parseFloat(eq.prize.value).toLocaleString('ar-SA')} ريال</p>
+              {parseFloat(eq.prize.value) > 0 && <p>{parseFloat(eq.prize.value).toLocaleString('ar-SA')} ريال</p>}
               {eq.contestant_name && <p>المتسابق: {eq.contestant_name}</p>}
             </div>
           </div>

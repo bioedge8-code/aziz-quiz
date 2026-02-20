@@ -46,16 +46,18 @@ export default function PrizeReveal({ name, value, imageUrl }: PrizeRevealProps)
         {name}
       </motion.h2>
 
-      <motion.div
-        className="glass rounded-2xl px-10 py-4"
-        initial={{ y: 30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.7 }}
-      >
-        <span className="text-3xl font-bold text-gold">
-          {typeof value === 'number' ? value.toLocaleString('ar-SA') : parseFloat(String(value)).toLocaleString('ar-SA')} ريال
-        </span>
-      </motion.div>
+      {parseFloat(String(value)) > 0 && (
+        <motion.div
+          className="glass rounded-2xl px-10 py-4"
+          initial={{ y: 30, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <span className="text-3xl font-bold text-gold">
+            {typeof value === 'number' ? value.toLocaleString('ar-SA') : parseFloat(String(value)).toLocaleString('ar-SA')} ريال
+          </span>
+        </motion.div>
+      )}
 
       <motion.p
         className="text-2xl text-correct font-bold"
