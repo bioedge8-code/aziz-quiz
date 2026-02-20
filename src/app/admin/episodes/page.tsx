@@ -24,6 +24,7 @@ export default function EpisodesPage() {
   const [loading, setLoading] = useState(true)
   const [showForm, setShowForm] = useState(false)
   const [title, setTitle] = useState('')
+  const [questionCount, setQuestionCount] = useState(15)
 
   const loadEpisodes = async () => {
     const res = await fetch('/api/episodes')
@@ -45,8 +46,12 @@ export default function EpisodesPage() {
     setTitle('')
     setShowForm(false)
 
-    // Auto-generate questions
-    const genRes = await fetch(`/api/episodes/${episode.id}/generate`, { method: 'POST' })
+    // Auto-generate questions with selected count
+    const genRes = await fetch(`/api/episodes/${episode.id}/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count: questionCount }),
+    })
     if (!genRes.ok) {
       const data = await genRes.json()
       alert(data.error || 'تم إنشاء الحلقة لكن فشل التوليد التلقائي')
@@ -85,7 +90,27 @@ export default function EpisodesPage() {
                 required
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50"
               />
-              <p className="text-white/50 text-sm">سيتم اختيار 20 سؤال عشوائي وتعيين جوائز عشوائية تلقائياً</p>
+
+              <div>
+                <label className="block text-sm text-white/60 mb-2">عدد الأسئلة والجوائز</label>
+                <div className="flex items-center gap-4">
+                  <input
+                    type="range"
+                    min="5"
+                    max="30"
+                    value={questionCount}
+                    onChange={(e) => setQuestionCount(parseInt(e.target.value))}
+                    className="flex-1 accent-gold"
+                  />
+                  <span className="text-2xl font-black text-gold w-12 text-center">{questionCount}</span>
+                </div>
+                <div className="flex justify-between text-xs text-white/30 mt-1">
+                  <span>5</span>
+                  <span>30</span>
+                </div>
+              </div>
+
+              <p className="text-white/50 text-sm">سيتم اختيار {questionCount} سؤال عشوائي وتعيين جوائز عشوائية تلقائياً</p>
               <div className="flex gap-3 justify-end">
                 <button type="button" onClick={() => setShowForm(false)} className="px-6 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">إلغاء</button>
                 <button type="submit" className="px-6 py-2 bg-gradient-to-r from-gold to-gold-dark text-black font-bold rounded-lg hover:opacity-90 transition-opacity">إنشاء</button>

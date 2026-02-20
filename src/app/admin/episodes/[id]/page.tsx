@@ -73,8 +73,16 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ id: st
   }
 
   const regenerate = async () => {
-    if (!confirm('سيتم إعادة اختيار الأسئلة والجوائز. هل أنت متأكد؟')) return
-    const res = await fetch(`/api/episodes/${id}/generate`, { method: 'POST' })
+    const countStr = prompt('كم عدد الأسئلة؟', String(episode?.questions.length || 15))
+    if (!countStr) return
+    const count = parseInt(countStr)
+    if (isNaN(count) || count < 1) return
+
+    const res = await fetch(`/api/episodes/${id}/generate`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ count }),
+    })
     if (!res.ok) {
       const data = await res.json()
       alert(data.error || 'فشل في إعادة التوليد')

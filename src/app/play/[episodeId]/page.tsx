@@ -161,6 +161,10 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
 
   const answerLabels = { A: 'option_a', B: 'option_b', C: 'option_c', D: 'option_d' } as const
 
+  // Dynamic grid columns based on question count
+  const qCount = episode.questions.length
+  const gridCols = qCount <= 9 ? 'grid-cols-3' : qCount <= 16 ? 'grid-cols-4' : qCount <= 25 ? 'grid-cols-5' : 'grid-cols-6'
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-bg-dark via-[#0D1B3E] to-bg-mid relative overflow-hidden select-none stars-bg ramadan-pattern">
       {/* Ramadan background effects */}
@@ -195,7 +199,7 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="grid grid-cols-5 gap-4 w-full max-w-5xl"
+              className={`grid ${gridCols} gap-4 w-full max-w-5xl`}
             >
               {episode.questions.map((eq) => {
                 const isUsed = eq.status !== 'pending'

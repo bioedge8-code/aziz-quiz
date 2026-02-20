@@ -3,10 +3,21 @@ import { prisma } from '@/lib/db'
 import { shuffleArray } from '@/lib/utils'
 
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params
+
+  // Parse count from request body (default 15)
+  let count = 15
+  try {
+    const body = await request.json()
+    if (body.count && body.count >= 1 && body.count <= 50) {
+      count = body.count
+    }
+  } catch {
+    // No body or invalid JSON, use default
+  }
 
   // Check episode exists
   const episode = await prisma.episode.findUnique({
@@ -25,32 +36,32 @@ export async function POST(
     })
   }
 
-  // Get 20 random unused questions
+  // Get random unused questions
   const availableQuestions = await prisma.question.findMany({
     where: { is_used: false },
   })
 
-  if (availableQuestions.length < 20) {
+  if (availableQuestions.length < count) {
     return NextResponse.json(
-      { error: `لا يوجد أسئلة كافية. المتاح: ${availableQuestions.length}، المطلوب: 20` },
+      { error: `لا يوجد أسئلة كافية. المتاح: ${availableQuestions.length}، المطلوب: ${count}` },
       { status: 400 }
     )
   }
 
-  // Get 20 random available prizes
+  // Get random available prizes
   const availablePrizes = await prisma.prize.findMany({
     where: { is_available: true },
   })
 
-  if (availablePrizes.length < 20) {
+  if (availablePrizes.length < count) {
     return NextResponse.json(
-      { error: `لا يوجد جوائز كافية. المتاح: ${availablePrizes.length}، المطلوب: 20` },
+      { error: `لا يوجد جوائز كافية. المتاح: ${availablePrizes.length}، المطلوب: ${count}` },
       { status: 400 }
     )
   }
 
-  const selectedQuestions = shuffleArray(availableQuestions).slice(0, 20)
-  const selectedPrizes = shuffleArray(availablePrizes).slice(0, 20)
+  const selectedQuestions = shuffleArray(availableQuestions).slice(0, count)
+  const selectedPrizes = shuffleArray(availablePrizes).slice(0, count)
 
   // Create episode questions with paired prizes
   const episodeQuestions = selectedQuestions.map((question, index) => ({
