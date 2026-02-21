@@ -92,7 +92,7 @@ export default function EpisodeDetailPage({ params }: { params: Promise<{ id: st
     await fetch(`/api/episodes/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...episode, status: newStatus }),
+      body: JSON.stringify({ title: episode?.title, status: newStatus }),
     })
     loadEpisode()
   }
