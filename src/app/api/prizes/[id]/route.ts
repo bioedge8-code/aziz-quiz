@@ -8,14 +8,16 @@ export async function PUT(
   const { id } = await params
   const body = await request.json()
 
+  // Only update fields that are provided
+  const data: Record<string, unknown> = {}
+  if (body.name !== undefined) data.name = body.name
+  if (body.image_url !== undefined) data.image_url = body.image_url || null
+  if (body.value !== undefined) data.value = body.value
+  if (body.is_available !== undefined) data.is_available = body.is_available
+
   const prize = await prisma.prize.update({
     where: { id },
-    data: {
-      name: body.name,
-      image_url: body.image_url || null,
-      value: body.value,
-      is_available: body.is_available,
-    },
+    data,
   })
 
   return NextResponse.json(prize)
