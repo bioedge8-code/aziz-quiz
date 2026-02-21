@@ -95,6 +95,19 @@ export async function DELETE(
 ) {
   const { id } = await params
 
+  // Return all prizes used in this episode back to available
+  const episodeQuestions = await prisma.episodeQuestion.findMany({
+    where: { episode_id: id },
+    select: { prize_id: true },
+  })
+  const prizeIds = episodeQuestions.map(eq => eq.prize_id)
+  if (prizeIds.length > 0) {
+    await prisma.prize.updateMany({
+      where: { id: { in: prizeIds } },
+      data: { is_available: true },
+    })
+  }
+
   await prisma.episode.delete({ where: { id } })
   return NextResponse.json({ success: true })
 }
