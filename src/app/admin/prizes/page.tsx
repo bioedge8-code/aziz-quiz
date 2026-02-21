@@ -17,6 +17,7 @@ export default function PrizesPage() {
   const [showForm, setShowForm] = useState(false)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [form, setForm] = useState({ name: '', image_url: '', value: '', is_available: true })
+  const [uploading, setUploading] = useState(false)
 
   const loadPrizes = async () => {
     const res = await fetch('/api/prizes')
@@ -100,12 +101,50 @@ export default function PrizesPage() {
                 required
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50"
               />
-              <input
-                value={form.image_url}
-                onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                placeholder="رابط الصورة (اختياري)"
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50"
-              />
+              {/* Image upload */}
+              <div className="space-y-2">
+                <label className="block text-sm text-white/60">صورة الجائزة (اختياري)</label>
+                <div className="flex gap-3">
+                  <label className={cn(
+                    'flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-white/5 border border-white/10 border-dashed rounded-lg cursor-pointer hover:bg-white/10 transition-colors text-sm',
+                    uploading && 'opacity-50 pointer-events-none'
+                  )}>
+                    <span className="text-white/40">{uploading ? 'جاري الرفع...' : form.image_url ? '✅ تم رفع الصورة' : '📁 اختر صورة من الجهاز'}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0]
+                        if (!file) return
+                        setUploading(true)
+                        const formData = new FormData()
+                        formData.append('file', file)
+                        try {
+                          const res = await fetch('/api/upload', { method: 'POST', body: formData })
+                          const data = await res.json()
+                          if (data.url) setForm(prev => ({ ...prev, image_url: data.url }))
+                        } catch { /* ignore */ }
+                        setUploading(false)
+                      }}
+                    />
+                  </label>
+                </div>
+                {form.image_url && (
+                  <div className="flex items-center gap-2">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-white/5">
+                      <img src={form.image_url} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <button type="button" onClick={() => setForm({ ...form, image_url: '' })} className="text-xs text-red-400 hover:text-red-300">حذف الصورة</button>
+                  </div>
+                )}
+                <input
+                  value={form.image_url}
+                  onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                  placeholder="أو أدخل رابط الصورة"
+                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50 text-sm"
+                />
+              </div>
               <input
                 type="number"
                 value={form.value}
