@@ -182,7 +182,7 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
 
       {/* Top bar */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-        <Image src="/images/logo.png" alt="اهبد مع عزيز" width={160} height={60} className="h-12 w-auto" />
+        <Image src="/images/logo.png" alt="اهبد مع عزيز" width={250} height={100} className="h-20 w-auto" />
         <div className="flex items-center gap-4">
           <button
             onClick={() => { const m = toggleMute(); setMuted(m) }}
@@ -190,8 +190,8 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
           >
             {muted ? '🔇' : '🔊'}
           </button>
-          <div className="w-14 h-14 rounded-full border-2 border-white/60 overflow-hidden shadow-lg">
-            <Image src="/images/aziz-photo.jpg" alt="عزيز" width={56} height={56} className="w-full h-full object-cover" />
+          <div className="w-24 h-24 rounded-full border-3 border-white/70 overflow-hidden shadow-xl shadow-black/30">
+            <Image src="/images/aziz-photo.jpg" alt="عزيز" width={96} height={96} className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
