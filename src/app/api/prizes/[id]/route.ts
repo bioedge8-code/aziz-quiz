@@ -27,6 +27,8 @@ export async function DELETE(
 ) {
   const { id } = await params
 
+  // Remove references in episode_questions first
+  await prisma.episodeQuestion.deleteMany({ where: { prize_id: id } })
   await prisma.prize.delete({ where: { id } })
   return NextResponse.json({ success: true })
 }

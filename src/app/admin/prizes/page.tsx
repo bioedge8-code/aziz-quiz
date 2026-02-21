@@ -53,7 +53,24 @@ export default function PrizesPage() {
 
   const handleDelete = async (id: string) => {
     if (!confirm('هل أنت متأكد من حذف هذه الجائزة؟')) return
-    await fetch(`/api/prizes/${id}`, { method: 'DELETE' })
+    const res = await fetch(`/api/prizes/${id}`, { method: 'DELETE' })
+    if (!res.ok) {
+      alert('فشل حذف الجائزة')
+    }
+    loadPrizes()
+  }
+
+  const handleDuplicate = async (prize: Prize) => {
+    await fetch('/api/prizes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: prize.name,
+        image_url: prize.image_url || null,
+        value: parseFloat(prize.value) || 0,
+        is_available: true,
+      }),
+    })
     loadPrizes()
   }
 
@@ -138,12 +155,14 @@ export default function PrizesPage() {
                     <button type="button" onClick={() => setForm({ ...form, image_url: '' })} className="text-xs text-red-400 hover:text-red-300">حذف الصورة</button>
                   </div>
                 )}
-                <input
-                  value={form.image_url}
-                  onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                  placeholder="أو أدخل رابط الصورة"
-                  className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50 text-sm"
-                />
+                {!form.image_url.startsWith('data:') && (
+                  <input
+                    value={form.image_url}
+                    onChange={(e) => setForm({ ...form, image_url: e.target.value })}
+                    placeholder="أو أدخل رابط الصورة"
+                    className="w-full px-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-white/30 focus:outline-none focus:border-gold/50 text-sm"
+                  />
+                )}
               </div>
               <input
                 type="number"
@@ -192,6 +211,7 @@ export default function PrizesPage() {
                   {prize.is_available ? 'متاح' : 'غير متاح'}
                 </button>
                 <div className="flex gap-2">
+                  <button onClick={() => handleDuplicate(prize)} className="px-2 py-1 bg-purple-500/20 text-purple-400 rounded text-xs hover:bg-purple-500/30 transition-colors">تكرار</button>
                   <button onClick={() => handleEdit(prize)} className="px-2 py-1 bg-blue-500/20 text-blue-400 rounded text-xs hover:bg-blue-500/30 transition-colors">تعديل</button>
                   <button onClick={() => handleDelete(prize.id)} className="px-2 py-1 bg-red-500/20 text-red-400 rounded text-xs hover:bg-red-500/30 transition-colors">حذف</button>
                 </div>
