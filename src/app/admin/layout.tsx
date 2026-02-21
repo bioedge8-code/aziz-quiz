@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import Sidebar from '@/components/admin/Sidebar'
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -62,8 +63,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="min-h-screen bg-gradient-to-br from-bg-dark to-bg-mid flex items-center justify-center">
         <form onSubmit={handleLogin} className="glass rounded-2xl p-8 w-96 space-y-6">
           <div className="text-center">
-            <h1 className="text-4xl font-black text-gold-gradient">عزيز</h1>
-            <p className="text-white/50 mt-2">تسجيل الدخول للوحة التحكم</p>
+            <Image src="/images/logo.png" alt="اهبد مع عزيز" width={250} height={100} className="w-48 h-auto mx-auto" />
+            <p className="text-white/50 mt-3">تسجيل الدخول للوحة التحكم</p>
           </div>
 
           <div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, use } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
 import { playSound, toggleMute, isMuted } from '@/lib/sounds'
 import { cn } from '@/lib/utils'
 import Timer from '@/components/display/Timer'
@@ -170,14 +171,18 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-ramadan-light/5 rounded-full blur-3xl" />
-        <div className="absolute top-10 left-1/2 -translate-x-1/2 text-6xl animate-crescent opacity-40 select-none">&#9790;</div>
+        {/* Mosque silhouette */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-[url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 200%22><path d=%22M0,200 L0,120 Q50,100 100,120 L100,80 Q150,20 200,80 L200,120 Q250,100 300,120 L300,90 L320,40 L340,90 L340,120 Q400,100 450,120 L450,60 Q500,10 550,60 L550,120 Q600,100 650,120 L650,100 L670,50 L690,100 L690,120 Q750,100 800,120 L800,80 Q850,30 900,80 L900,120 Q950,100 1000,120 L1000,90 L1020,45 L1040,90 L1040,120 Q1100,100 1150,120 L1200,120 L1200,200 Z%22 fill=%22rgba(0,0,0,0.2)%22/></svg>')] bg-cover bg-bottom" />
+        {/* Lanterns */}
+        <div className="absolute top-4 right-[10%] text-3xl animate-float opacity-30 select-none">🏮</div>
+        <div className="absolute top-8 left-[12%] text-2xl animate-float opacity-20 select-none" style={{ animationDelay: '1s' }}>🏮</div>
       </div>
 
       <Confetti active={showConfetti} />
 
       {/* Top bar */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-        <h1 className="text-4xl font-black text-gold-gradient">{episode.title}</h1>
+        <h1 className="text-2xl font-black text-white/80">{episode.title}</h1>
         <div className="flex items-center gap-4">
           <button
             onClick={() => { const m = toggleMute(); setMuted(m) }}
@@ -185,7 +190,7 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
           >
             {muted ? '🔇' : '🔊'}
           </button>
-          <span className="text-5xl font-black text-gold-gradient">عزيز</span>
+          <Image src="/images/logo.png" alt="اهبد مع عزيز" width={160} height={60} className="h-12 w-auto" />
         </div>
       </div>
 

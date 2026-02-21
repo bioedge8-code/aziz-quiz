@@ -2,8 +2,8 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'عزيز - مسابقة تلفزيونية',
-  description: 'منصة المسابقات التلفزيونية التفاعلية',
+  title: 'اهبد مع عزيز',
+  description: 'مسابقات رمضان التفاعلية - اهبد مع عزيز',
 }
 
 export default function RootLayout({
