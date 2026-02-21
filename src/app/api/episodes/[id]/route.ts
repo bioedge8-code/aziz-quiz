@@ -95,16 +95,23 @@ export async function DELETE(
 ) {
   const { id } = await params
 
-  // Return all prizes used in this episode back to available
+  // Return all prizes and questions used in this episode
   const episodeQuestions = await prisma.episodeQuestion.findMany({
     where: { episode_id: id },
-    select: { prize_id: true },
+    select: { prize_id: true, question_id: true },
   })
   const prizeIds = episodeQuestions.map(eq => eq.prize_id)
+  const questionIds = episodeQuestions.map(eq => eq.question_id)
   if (prizeIds.length > 0) {
     await prisma.prize.updateMany({
       where: { id: { in: prizeIds } },
       data: { is_available: true },
+    })
+  }
+  if (questionIds.length > 0) {
+    await prisma.question.updateMany({
+      where: { id: { in: questionIds } },
+      data: { is_used: false },
     })
   }
 

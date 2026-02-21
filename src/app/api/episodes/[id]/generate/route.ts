@@ -29,11 +29,28 @@ export async function POST(
     return NextResponse.json({ error: 'الحلقة غير موجودة' }, { status: 404 })
   }
 
-  // Delete existing episode questions if regenerating
+  // Delete existing episode questions if regenerating, return questions & prizes
   if (episode.questions.length > 0) {
+    const oldQuestionIds = episode.questions.map(eq => eq.question_id)
+    const oldPrizeIds = episode.questions.map(eq => eq.prize_id)
+
     await prisma.episodeQuestion.deleteMany({
       where: { episode_id: id },
     })
+
+    // Return old questions and prizes to available
+    if (oldQuestionIds.length > 0) {
+      await prisma.question.updateMany({
+        where: { id: { in: oldQuestionIds } },
+        data: { is_used: false },
+      })
+    }
+    if (oldPrizeIds.length > 0) {
+      await prisma.prize.updateMany({
+        where: { id: { in: oldPrizeIds } },
+        data: { is_available: true },
+      })
+    }
   }
 
   // Get random unused questions
@@ -74,6 +91,16 @@ export async function POST(
 
   await prisma.episodeQuestion.createMany({
     data: episodeQuestions,
+  })
+
+  // Mark selected questions as used and prizes as unavailable
+  await prisma.question.updateMany({
+    where: { id: { in: selectedQuestions.map(q => q.id) } },
+    data: { is_used: true },
+  })
+  await prisma.prize.updateMany({
+    where: { id: { in: selectedPrizes.map(p => p.id) } },
+    data: { is_available: false },
   })
 
   // Return updated episode
