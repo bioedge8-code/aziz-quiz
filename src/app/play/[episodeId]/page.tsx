@@ -190,8 +190,8 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
           >
             {muted ? '🔇' : '🔊'}
           </button>
-          <div className="w-24 h-24 rounded-full border-3 border-white/70 overflow-hidden shadow-xl shadow-black/30">
-            <Image src="/images/aziz-photo.jpg" alt="عزيز" width={96} height={96} className="w-full h-full object-cover" />
+          <div className="w-48 h-48 rounded-full border-4 border-white/70 overflow-hidden shadow-xl shadow-black/30">
+            <Image src="/images/aziz-photo.jpg" alt="عزيز" width={192} height={192} className="w-full h-full object-cover" />
           </div>
         </div>
       </div>
