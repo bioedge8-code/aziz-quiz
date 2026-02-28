@@ -18,7 +18,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-bg-mid/50 border-l border-white/10 min-h-screen p-6">
       <Link href="/admin" className="block mb-8">
-        <Image src="/images/logo.png" alt="اهبد مع عزيز" width={200} height={80} className="w-40 h-auto" />
+        <Image src="/images/logo.jpg" alt="اهبد مع عزيز" width={200} height={80} className="w-40 h-auto" />
         <p className="text-sm text-white/50 mt-2">لوحة التحكم</p>
       </Link>
 

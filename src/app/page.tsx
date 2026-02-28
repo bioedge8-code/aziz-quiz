@@ -20,7 +20,7 @@ export default function Home() {
 
         {/* Logo */}
         <div className="mx-auto w-80">
-          <Image src="/images/logo.png" alt="اهبد مع عزيز" width={400} height={200} className="w-full h-auto" />
+          <Image src="/images/logo.jpg" alt="اهبد مع عزيز" width={400} height={200} className="w-full h-auto" />
         </div>
 
         <div className="flex gap-6 justify-center pt-4">

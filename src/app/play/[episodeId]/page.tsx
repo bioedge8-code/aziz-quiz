@@ -182,7 +182,7 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
 
       {/* Top bar */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-        <Image src="/images/logo.png" alt="اهبد مع عزيز" width={250} height={100} className="h-20 w-auto" />
+        <Image src="/images/logo.jpg" alt="اهبد مع عزيز" width={250} height={100} className="h-20 w-auto" />
         <div className="flex items-center gap-4">
           <button
             onClick={() => { const m = toggleMute(); setMuted(m) }}

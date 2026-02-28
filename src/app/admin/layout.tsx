@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="min-h-screen bg-gradient-to-br from-bg-dark to-bg-mid flex items-center justify-center">
         <form onSubmit={handleLogin} className="glass rounded-2xl p-8 w-96 space-y-6">
           <div className="text-center">
-            <Image src="/images/logo.png" alt="اهبد مع عزيز" width={250} height={100} className="w-48 h-auto mx-auto" />
+            <Image src="/images/logo.jpg" alt="اهبد مع عزيز" width={250} height={100} className="w-48 h-auto mx-auto" />
             <p className="text-white/50 mt-3">تسجيل الدخول للوحة التحكم</p>
           </div>
 
