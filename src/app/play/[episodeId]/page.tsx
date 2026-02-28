@@ -182,7 +182,10 @@ export default function PlayPage({ params }: { params: Promise<{ episodeId: stri
 
       {/* Top bar */}
       <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-10">
-        <Image src="/images/logo.png" alt="اهبد مع عزيز" width={400} height={160} className="h-32 w-auto" />
+        <div className="text-right leading-tight">
+          <span className="text-white text-3xl font-bold block">اهبد واربح</span>
+          <span className="text-gold text-4xl font-bold">مع عزيز</span>
+        </div>
         <div className="flex items-center gap-4">
           <button
             onClick={() => { const m = toggleMute(); setMuted(m) }}
